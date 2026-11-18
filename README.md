@@ -101,3 +101,7 @@ must have a category, enforced by a `CHECK` constraint.
 
 Set `DATABASE_URL` to point at another database; it defaults to
 `postgresql://postgres:postgres@localhost:5432/finance`.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -3,6 +3,7 @@ name = "finance-db"
 version = "0.1.0"
 description = "PostgreSQL database for finance data, including tests, demo data, and a CLI for easy access."
 readme = "README.md"
+license = "MIT"
 authors = [
     { name = "Vincent Buekers", email = "vincentbuekers@protonmail.com" }
 ]
