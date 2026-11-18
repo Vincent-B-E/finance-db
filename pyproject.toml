@@ -1,0 +1,24 @@
+[project]
+name = "finance-db"
+version = "0.1.0"
+description = "PostgreSQL database for finance data, including tests, demo data, and a CLI for easy access."
+readme = "README.md"
+authors = [
+    { name = "Vincent Buekers", email = "vincentbuekers@protonmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg[binary]>=3.3.9",
+]
+
+[project.scripts]
+finance-db = "finance_db:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
