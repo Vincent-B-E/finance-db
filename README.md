@@ -93,7 +93,7 @@ must have a category, enforced by a `CHECK` constraint.
 - `src/finance_db/db.py` — connection helper and database operations
 - `src/finance_db/main.py` — demo scenarios
 - `seed_random.py` — reproducible random data generator
-- `test_db.py` — pytest suite
+- `tests/test_db.py` — pytest suite
 - `concurrency_demo.py` — two threads competing for one account balance
 - `schema.sql`, `seed.sql` — schema and reference data
 - `queries.sql` — showcase queries and an `EXPLAIN ANALYZE` example

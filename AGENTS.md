@@ -52,7 +52,7 @@ If Docker reports a permission error, prefix commands with
 - `src/finance_db/main.py` — demo scenarios
 - `schema.sql`, `seed.sql` — schema and reference data
 - `seed_random.py` — reproducible random dataset
-- `test_db.py` — pytest suite
+- `tests/test_db.py` — pytest suite
 - `concurrency_demo.py` — two threads competing for one balance
 - `queries.sql` — showcase queries and `EXPLAIN ANALYZE`
 - `legacy/` — original standalone exercises
