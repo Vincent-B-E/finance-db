@@ -6,7 +6,8 @@ VALUES
     ('Transport'),
     ('Entertainment'),
     ('Rent'),
-    ('Utilities')
-ON CONFLICT (name) DO NOTHING; 
+    ('Utilities'),
+    ('Uncategorized')
+ON CONFLICT (name) DO NOTHING;
 
 COMMIT;

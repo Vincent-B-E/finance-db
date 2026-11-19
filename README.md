@@ -66,13 +66,14 @@ If Docker reports a permission error, run the commands with `sg docker -c "..."`
 | --- | --- |
 | `users` | Account owners with unique email and scrypt password hash |
 | `accounts` | Balances per user, non-negative, unique per user and name |
-| `categories` | Expense categories |
+| `categories` | Expense categories, including the seeded `Uncategorized` bucket |
 | `transactions` | Deposits, withdrawals, expenses, and both transfer legs |
 | `monthly_spending_by_category` | View: expense totals per user, month, and category |
 | `account_reconciliation` | View: cached balance vs. balance computed from transactions |
 
-Money uses `NUMERIC(12, 2)` and Python `Decimal`, never floats. An expense
-must have a category, enforced by a `CHECK` constraint.
+Money uses `NUMERIC(12, 2)` and Python `Decimal`, never floats. Every expense
+has a category, enforced by a `CHECK` constraint; passing no category stores it
+under the seeded `Uncategorized` bucket.
 
 ## Design notes
 

@@ -20,7 +20,8 @@ def clean_database():
         conn.execute(
             """
             INSERT INTO categories (name)
-            VALUES ('Food'), ('Transport'), ('Entertainment'), ('Rent'), ('Utilities')
+            VALUES ('Food'), ('Transport'), ('Entertainment'), ('Rent'),
+                   ('Utilities'), ('Uncategorized')
             """
         )
     yield
@@ -68,11 +69,15 @@ def test_transfer_is_atomic():
     assert db.get_account(bob_account["id"])["balance"] == Decimal("30.00")
 
 
-def test_expense_requires_a_category():
+def test_missing_category_is_recorded_as_uncategorized():
     _, account = make_account()
     db.deposit(account["id"], "50.00")
-    with pytest.raises(ValueError, match="requires a category"):
-        db.add_expense(account["id"], None, "5.00")
+
+    db.add_expense(account["id"], None, "5.00")
+
+    latest = db.get_transactions(account["id"], limit=1)[0]
+    assert latest["kind"] == "expense"
+    assert latest["category"] == "Uncategorized"
 
 
 def test_reconciliation_matches_after_operations():
