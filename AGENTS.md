@@ -67,7 +67,8 @@ If Docker reports a permission error, prefix commands with
 - `withdraw` and `add_expense` lock the account row before checking the balance.
 - `account_reconciliation.difference` must be `0.00` for every account. This is
   the data-quality check.
-- An expense must have a category, enforced by a `CHECK` constraint.
+- Every expense has a category, enforced by a `CHECK` constraint. Passing
+  `None` to `add_expense` stores it under the seeded `Uncategorized` category.
 - Passwords are hashed with `hashlib.scrypt`; never store or log plaintext.
 
 # Working Agreement

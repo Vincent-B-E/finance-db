@@ -33,7 +33,8 @@ def reset_data():
         conn.execute(
             """
             INSERT INTO categories (name)
-            VALUES ('Food'), ('Transport'), ('Entertainment'), ('Rent'), ('Utilities')
+            VALUES ('Food'), ('Transport'), ('Entertainment'), ('Rent'),
+                   ('Utilities'), ('Uncategorized')
             ON CONFLICT (name) DO NOTHING
             """
         )
@@ -97,7 +98,9 @@ def populate_transactions(rng, accounts, categories, count):
                     account["id"], random_amount(rng, 5, 100), "Random withdrawal"
                 )
             elif action == "expense":
-                category = rng.choice(categories)
+                # Uncategorized is for missing input, not generated data.
+                choices = [c for c in categories if c["name"] != db.UNCATEGORIZED]
+                category = rng.choice(choices)
                 db.add_expense(
                     account["id"],
                     category["id"],

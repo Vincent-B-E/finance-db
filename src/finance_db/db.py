@@ -216,13 +216,27 @@ def transfer(from_account_id, to_account_id, amount, description=None):
         )
 
 
+UNCATEGORIZED = "Uncategorized"
+
+
+def _resolve_category_id(conn, category_id):
+    if category_id is not None:
+        return category_id
+    # "No category picked" becomes an explicit bucket, not NULL.
+    row = conn.execute(
+        "SELECT id FROM categories WHERE name = %s",
+        (UNCATEGORIZED,),
+    ).fetchone()
+    if row is None:
+        raise ValueError(f"category {UNCATEGORIZED!r} is missing; apply seed.sql")
+    return row["id"]
+
+
 def add_expense(account_id, category_id, amount, description=None):
     amount = _positive_amount(amount)
-    # The schema also enforces this, but the friendlier check comes first.
-    if category_id is None:
-        raise ValueError("expense requires a category")
     try:
         with get_connection() as conn:
+            category_id = _resolve_category_id(conn, category_id)
             account = conn.execute(
                 "SELECT balance FROM accounts WHERE id = %s FOR UPDATE",
                 (account_id,),
