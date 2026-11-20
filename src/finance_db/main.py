@@ -19,33 +19,58 @@ def main():
 
     section("Create users")
     alice = db.create_user(
-        "Alice Example", f"alice-{suffix}@example.com", "password123"
+        "Alice Example", 
+        f"alice-{suffix}@example.com", 
+        "password123"
     )
     bob = db.create_user(
-        "Bob Example", f"bob-{suffix}@example.com", "password123"
+        "Bob Example",
+        f"bob-{suffix}@example.com", 
+        "password123"
     )
     print(f"  created {alice['email']} and {bob['email']}")
 
     section("Reject duplicate email")
     try:
-        db.create_user("Alice Again", alice["email"], "password123")
+        db.create_user(
+            "Alice Again", 
+            alice["email"], 
+            "password123")
     except ValueError as exc:
         print(f"  rejected: {exc}")
 
     section("Create accounts and move money")
-    alice_account = db.create_account(alice["id"], "Checking")
-    bob_account = db.create_account(bob["id"], "Checking")
-    print(f"  after deposit: {db.deposit(alice_account['id'], '100.00', 'Opening deposit')}")
-    print(f"  after withdrawal: {db.withdraw(alice_account['id'], '30.00', 'Groceries')}")
-    db.transfer(alice_account["id"], bob_account["id"], "40.00", "Shared lunch")
+    alice_account = db.create_account(
+        alice["id"], 
+        "Checking")
+    bob_account = db.create_account(
+        bob["id"], 
+        "Checking")
+    print(f"  after deposit: {db.deposit(
+        alice_account['id'], 
+        '100.00', 
+        'Opening deposit')}")
+    print(f"  after withdrawal: {db.withdraw(
+        alice_account['id'], 
+        '30.00', 
+        'Groceries')}")
+    db.transfer(
+        alice_account["id"], 
+        bob_account["id"], 
+        "40.00", 
+        "Shared lunch")
     alice_balance = db.get_account(alice_account["id"])["balance"]
     bob_balance = db.get_account(bob_account["id"])["balance"]
     print(f"  after transfer: alice={alice_balance} bob={bob_balance}")
 
-    # The failed transfer must leave both balances exactly as they were.
     section("Reject overdraft transfer (rollback)")
+    # A failed transfer must leave both balances exactly as they were.
     try:
-        db.transfer(alice_account["id"], bob_account["id"], "1000.00", "Too much")
+        db.transfer(
+            alice_account["id"], 
+            bob_account["id"], 
+            "1000.00", 
+            "Too much")
     except ValueError as exc:
         print(f"  rejected: {exc}")
     alice_balance = db.get_account(alice_account["id"])["balance"]
@@ -54,8 +79,16 @@ def main():
 
     section("Add expenses")
     categories = {row["name"]: row["id"] for row in db.list_categories()}
-    db.add_expense(alice_account["id"], categories["Food"], "12.50", "Lunch")
-    db.add_expense(alice_account["id"], categories["Transport"], "5.75", "Bus")
+    db.add_expense(
+        alice_account["id"], 
+        categories["Food"], 
+        "12.50", 
+        "Lunch")
+    db.add_expense(
+        alice_account["id"], 
+        categories["Transport"], 
+        "5.75", 
+        "Bus")
     print(f"  alice balance: {db.get_account(alice_account['id'])['balance']}")
 
     section("Monthly spending by category")
